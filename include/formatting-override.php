@@ -82,17 +82,37 @@ function rawhtml_add_custom_box() {
 /* Displays the custom box */
 function rawhtml_meta_box(){
 	global $post;
+
+//XTEC ************ AFEGIT - Localization support
+//2013.07.11 @jmiro227
+load_plugin_textdomain( 'rawhtml', null, dirname( plugin_basename(RAWHTML_PLUGIN_FILE) ) . '/languages' );
+//************ FI
+
 	// Use nonce for verification
 	echo '<input type="hidden" name="rawhtml_nonce" id="rawhtml_nonce" value="' . 
 	wp_create_nonce( plugin_basename(RAWHTML_PLUGIN_FILE) ) . '" />';
 	
 	//Output checkboxes 
+
+//XTEC ************ MODIFICAT - Localization support
+//2013.07.11 @jmiro227
+	$fields = array(
+		'disable_wptexturize' => array(__("Disable wptexturize", 'rawhtml'), __("wptexturize is responsible for smart quotes and other typographic characters", 'rawhtml')),
+		'disable_wpautop' => array(__("Disable automatic paragraphs", 'rawhtml'), null),
+		'disable_convert_chars' => array(__("Disable convert_chars", 'rawhtml'), __("convert_chars converts ampersand to HTML entities and \"fixes\" some Unicode character", 'rawhtml')),
+		'disable_convert_smilies' => array(__("Disable smilies", 'rawhtml'), null),
+	);
+//************ ORIGINAL
+/*
 	$fields = array(
 		'disable_wptexturize' => array('Disable wptexturize', 'wptexturize is responsible for smart quotes and other typographic characters'),
 		'disable_wpautop' => array('Disable automatic paragraphs', null),
 		'disable_convert_chars' => array('Disable convert_chars', 'convert_chars converts ampersand to HTML entities and "fixes" some Unicode character'),
 		'disable_convert_smilies' => array('Disable smilies', null),
 	);
+*/
+//************ FI 
+
 	$settings = rawhtml_get_post_settings($post->ID);
 
 	echo '<ul>';
@@ -302,12 +322,24 @@ function rawhtml_default_settings_panel(){
 	$defaults = rawhtml_get_default_settings();
 	
 	//Output checkboxes 
+//XTEC ************ MODIFICAT - Localization support
+//2013.07.11 @jmiro227
+	load_plugin_textdomain( 'rawhtml', null, dirname( plugin_basename(RAWHTML_PLUGIN_FILE) ) . '/languages' );
 	$fields = array(
+		'disable_wptexturize' => __("Disable wptexturize", 'rawhtml'),
+		'disable_wpautop' => __("Disable automatic paragraphs", 'rawhtml'),
+		'disable_convert_chars' => __("Disable convert_chars", 'rawhtml'),
+		'disable_convert_smilies' => __("Disable smilies", 'rawhtml'),
+	 );
+//************ ORIGINAL
+/* 	$fields = array(
 		'disable_wptexturize' => 'Disable wptexturize',
 		'disable_wpautop' => 'Disable automatic paragraphs',
 		'disable_convert_chars' => 'Disable convert_chars',
 		'disable_convert_smilies' => 'Disable smilies',
 	 );
+*/
+//************ FI 
 	 
  	$output = '<div class="metabox-prefs">';
 	foreach($fields as $field => $legend){
